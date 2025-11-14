@@ -33,4 +33,5 @@ app.listen(3000, () => console.log(`
 SSE app listening on port 3000
 EventSource demo: http://localhost:3000/sse-ai.html
 Fetch demo: http://localhost:3000/fetch.html
+Native fetch demo: http://localhost:3000/native-fetch.html
 `))

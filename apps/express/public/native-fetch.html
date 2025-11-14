@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>SSE demo</title>
+  </head>
+  <body>
+    <button id="stop">stop</button>
+    <button id="start">start</button>
+    <pre id="log"></pre>
+  </body>
+  <script type="module">
+    const stop = document.getElementById("stop");
+    const start = document.getElementById("start");
+    const controller = new AbortController();
+    start.addEventListener("click", async () => {
+      const response = await fetch("/chat", {
+        signal: controller.signal,
+        method: "POST",
+      });
+      const textDecoder = new TextDecoder();
+      // response.body 是可读流
+      for await (const chunk of response.body) {
+        // chunk 是 Uint8Array ，通过 TextDecoder 转换为字符串
+        console.log('chunk', chunk)
+        const text = textDecoder.decode(chunk);
+        if (text === "[DONE]") {
+          console.log("done");
+          return;
+        }
+        console.log('text', text)
+      }
+    //   const reader = response.body.getReader();
+    //   while (true) {
+    //     const { done, value } = await reader.read();
+    //     if (done) {
+    //       break;
+    //     }
+    //     const text = textDecoder.decode(value);
+    //     if (text === "[DONE]") {
+    //       console.log("done");
+    //       return;
+    //     }
+    //     console.log('text', text)
+    //   }
+
+    });
+    stop.addEventListener("click", function () {
+      controller.abort();
+    });
+  </script>
+</html>
