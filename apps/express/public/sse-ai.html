@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>SSE demo</title>
+</head>
+<body>
+<button id="stop">stop</button>
+<button id="start">start</button>
+<pre id="log"></pre>
+</body>
+<script>
+  const stop = document.getElementById('stop')
+  const start = document.getElementById('start')
+  let eventSource = null
+  start.addEventListener('click', () => {
+    const eventSource = new EventSource('/chat')
+    eventSource.onmessage = function (event) {
+      // 要手动关闭，否则会一直请求服务器
+      if (event.data === '[DONE]') {
+        eventSource.close()
+        return
+      }
+      const json = JSON.parse(event.data)
+      document.getElementById('log').innerHTML += json.content
+    }
+  })
+  stop.addEventListener('click', function () {
+    eventSource.close()
+  })
+</script>
+</html>

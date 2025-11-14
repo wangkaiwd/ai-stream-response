@@ -11,7 +11,10 @@ const createStream = () => {
         if (!mockData) {
           // 字符处理完成后，停止写入
           controller.close()
-          clearInterval(timer)
+          if (timer) {
+            clearInterval(timer)
+            timer = null
+          }
           return
         }
         // 删除已经写入的字符
