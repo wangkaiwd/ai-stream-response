@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>SSE demo</title>
+  </head>
+  <body>
+    <button id="stop">stop</button>
+    <button id="start">start</button>
+    <pre id="log"></pre>
+  </body>
+  <script type="module">
+    import { fetchEventSource } from "https://esm.sh/@microsoft/fetch-event-source";
+
+    const stop = document.getElementById("stop");
+    const start = document.getElementById("start");
+    const controller = new AbortController();
+    start.addEventListener("click", () => {
+      fetchEventSource("/chat", {
+        signal: controller.signal,
+        method: "POST",
+        onmessage: (event) => {
+          const data = event.data;
+          if (data === "[DONE]") {
+            console.log("done");
+            return;
+          }
+          const json = JSON.parse(data);
+          document.getElementById("log").innerHTML += json.content;
+        },
+      });
+    });
+    stop.addEventListener("click", function () {
+      controller.abort();
+    });
+  </script>
+</html>

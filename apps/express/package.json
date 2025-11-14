@@ -13,6 +13,7 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.8.0",
 	"dependencies": {
+		"@microsoft/fetch-event-source": "^2.0.1",
 		"dotenv": "^17.2.3",
 		"express": "^5.1.0"
 	},

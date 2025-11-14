@@ -7,9 +7,8 @@ const createStream = () => {
   const stream = new ReadableStream({
     start (controller) {
       timer = setInterval(() => {
-        const chunk = mockData.slice(0, threshold)
+        // 字符处理完成后，停止写入
         if (!mockData) {
-          // 字符处理完成后，停止写入
           controller.close()
           if (timer) {
             clearInterval(timer)
@@ -17,6 +16,7 @@ const createStream = () => {
           }
           return
         }
+        const chunk = mockData.slice(0, threshold)
         // 删除已经写入的字符
         mockData = mockData.slice(threshold)
         // 一点点添加字符到 stream

@@ -10,7 +10,7 @@ const client = new OpenAI({
 const app = express()
 app.use(express.static('public'))
 
-app.get('/chat', async function (req, res) {
+app.all('/chat', async function (req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
@@ -31,5 +31,6 @@ app.get('/chat', async function (req, res) {
 
 app.listen(3000, () => console.log(`
 SSE app listening on port 3000
-Open http://localhost:3000/sse-ai.html in your browser to access page.
+EventSource demo: http://localhost:3000/sse-ai.html
+Fetch demo: http://localhost:3000/fetch.html
 `))
