@@ -8,10 +8,12 @@ function makeIterableObj (array: any[]) {
       let nextIndex = 0
       return {
         next () {
-          if (nextIndex <= array.length) {
-            return { value: array[nextIndex++], done: false }
+          if (nextIndex < array.length) {
+            const result = { value: array[nextIndex], done: false }
+            nextIndex++
+            return result
           }
-          return { done: true }
+          return { done: true, value: undefined }
         },
       }
     },

@@ -22,7 +22,7 @@
       // response.body 是可读流
       for await (const chunk of response.body) {
         // chunk 是 Uint8Array ，通过 TextDecoder 转换为字符串
-        console.log('chunk', chunk)
+        // console.log('chunk', chunk)
         const text = textDecoder.decode(chunk);
         if (text === "[DONE]") {
           console.log("done");

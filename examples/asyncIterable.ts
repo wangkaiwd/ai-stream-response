@@ -17,8 +17,10 @@ function makeIterableObj (array: any[]) {
       let nextIndex = 0
       return {
         next () {
-          if (nextIndex <= array.length) {
-            return sleep({ value: array[nextIndex++], done: false })
+          if (nextIndex < array.length) {
+            const promise = sleep({ value: array[nextIndex], done: false })
+            nextIndex++
+            return promise
           }
           return sleep({ done: true, value: undefined })
         },
@@ -40,7 +42,7 @@ const iterateManually = async () => {
   }
 }
 
-// iterateManually()
+iterateManually()
 
 const iterateAutomatically = async () => {
   for await (const item of makeIterableObj(['one', 'two'])) {

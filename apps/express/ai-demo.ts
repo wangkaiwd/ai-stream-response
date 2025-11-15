@@ -4,7 +4,7 @@ import 'dotenv/config'
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseURL: 'https://api.deepseek.com',
+  baseURL: process.env.OPENAI_BASEURL,
 })
 
 const app = express()
