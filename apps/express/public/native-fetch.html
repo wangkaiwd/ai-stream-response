@@ -28,6 +28,15 @@
           console.log("done");
           return;
         }
+        // 解析 chunk:
+				// 	data: {"content":"你好"}\n\n
+				//  data: {"content":"世界"}\n\n
+
+				// chunk 有可能不是一个完整的 sse 消息, 要兼容这种情况：
+				//  data: {"cont"
+				//  "ent":"你好"}\n\n
+
+				// 当chunk的内容包含 \n 时，这种情况其实无法满足 sse 格式规范，并不需要进行处理
         console.log('text', text)
       }
     //   const reader = response.body.getReader();
